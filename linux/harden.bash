@@ -11,13 +11,17 @@ read -p "Running apt updates... [ENTER]"
 
 apt install -y firefox
 apt -V -y install hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-pwquality
+apt -V -y install --reinstall coreutils
 # Packages explained
 # chkrootkit is a shell script which checks system binaries for rootkit modification
 # iptables monitors traffic to and from your server using tables. Essentially a firewall program
 # portsentry is a program that tries to detect portscans on network interfaces with the ability to detect stealth scans
 # lynis performs an extensive health scan of your systems to support system hardening and compliance testing.
-# 
-apt -V -y install --reinstall coreutils
+# clamav is used to detect trojans and malicious softwares including viruses
+# libpam-tmpdir sets $TMPDIR and $TMP for PAM sessions and sets the permissions quite tight
+# fail2ban is an intrusion prevention software framework
+# needrestart checks which daemons need to be restarted after library upgrades
+# libpam-pwquality provides common functions for password quality checking and also scoring them based on their apparent randomness
 
 apt update
 apt dist-upgrade
