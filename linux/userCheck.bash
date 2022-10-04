@@ -50,6 +50,29 @@ fi
 done
 }
 
+removeSuperUsers() {
+# remove sudo priviledges from users that shouldn't have it
+echo "Enter the name of the user you want to remove sudo privileges from, one at a time. Type 0 to exit."
+echo "You will get an error message regarding an expected integer value; ignore it."
+# begin loop
+while :
+do
+echo
+echo "Enter the username of the user you want to remove sudo privileges from: "
+read a
+
+if [ $a -eq 0]; then
+break
+else
+sudo deluser $a sudo
+echo "User $a removed from sudo group"
+read -p "[ENTER] to continue..."
+
+fi 
+
+done
+}
+
 if [ "$(id -u)" != "0" ]; then
 
 echo "You are not running usercheck.bash as root."
@@ -59,5 +82,5 @@ else
 listUsers
 cullUsers
 listSuperUsers
-cullUsers
+removeSuperUsers
 fi
