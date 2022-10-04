@@ -11,12 +11,20 @@ read -p "Running apt updates... [ENTER]"
 
 apt install -y firefox
 apt -V -y install hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-pwquality
-
+# Packages explained
+# chkrootkit is a shell script which checks system binaries for rootkit modification
+# iptables monitors traffic to and from your server using tables. Essentially a firewall program
+# portsentry is a program that tries to detect portscans on network interfaces with the ability to detect stealth scans
+# lynis performs an extensive health scan of your systems to support system hardening and compliance testing.
+# 
 apt -V -y install --reinstall coreutils
 
 apt update
-apt upgrade
 apt dist-upgrade
+apt install -f -y
+apt autoremove -y
+apt autoclean -y
+apt check
 }
 
 firewall(){ # Firewall stuff (UFW config)
@@ -29,10 +37,10 @@ ufw enable
 
 ufw allow ssh
 ufw allow http
-ufw deny 23
-ufw deny 2049
-ufw deny 515
-ufw deny 111
+ufw deny 23 # typically the Telnet protocol
+ufw deny 2049 # Network File System (NFS) used for file access
+ufw deny 515 # Line Printer Daemon (LPD) protocol
+ufw deny 111 # used to easily access Remote Procedure Call (RPC) services
 ufw default deny
 
 ufw status verbose
