@@ -4,7 +4,7 @@
 
 # ADD GROUP / PASSCHANGE FUNCTIONALITY
 
-listusers() {
+listUsers() {
 # List general users
 
 clear
@@ -16,7 +16,17 @@ awk -F':' -v "min=${l##UID_MIN}" -v "max=${l1##UID_MAX}" '{ if ( $3 >= min && $3
 echo
 }
 
-cullusers() {
+listSuperUsers() {
+# List users with sudo priviledges
+
+clear
+read -p "Displaying all super users on this system... [ENTER]"
+echo
+grep '^sudo:.*$' /etc/group | cut -d: -f4
+echo
+}
+
+cullUsers() {
 # Cull the unauthorized users
 
 echo "Enter the names of the users which you desire to delete, one at a time. Type 0 to exit."
@@ -46,6 +56,8 @@ echo "You are not running usercheck.bash as root."
 echo "Run as 'sudo bash usercheck.bash'"
 exit
 else
-listusers
-cullusers
+listUsers
+cullUsers
+listSuperUsers
+cullUsers
 fi
