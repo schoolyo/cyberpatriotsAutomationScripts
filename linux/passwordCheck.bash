@@ -6,6 +6,6 @@ checkEmpty() {
 # List all users with no password
 read -p "Check if any users have no password... [ENTER]"
 echo
-awk -F':' '{if ($1 == "*" || $1 == "!") print $0}' /etc/shadow | cut -d: -f1
+awk -F':' '{if ($2 == "*" || $2 == "!") print $1}' /etc/shadow | cut -d: -f1
 echo
 }
