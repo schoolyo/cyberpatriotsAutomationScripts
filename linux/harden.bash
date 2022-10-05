@@ -58,6 +58,7 @@ iptables -F
 
 # Block SSH spammers
 iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set
+# INPUT chain, tcp protocol, destination port 22, received on interface eth0, match module state, 
 iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --update --seconds 60 --hitcount 5 -j DROP
 
 # Portscan blocker
