@@ -61,10 +61,10 @@ echo
 echo "Enter the username of the user you want to remove sudo privileges from: "
 read a
 
-if [ $a -eq 0]; then
+if [ $a -eq 0 ]; then
 break
 else
-sudo deluser $a sudo
+sudo deluser $a sudo &>/dev/null
 echo "User $a removed from sudo group"
 read -p "[ENTER] to continue..."
 
