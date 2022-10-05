@@ -5,7 +5,7 @@
 # rules. In addition, softwares that check for system vulnerabilities will be run
 # and their outputs saved to corresponding files.
 
-aptstuff(){ # Some basic, but important apt commands
+aptStuff(){ # Some basic, but important apt commands
 
 read -p "Running apt updates... [ENTER]"
 
@@ -103,7 +103,7 @@ iptables-save
 /sbin/iptables-save
 }
 
-configfix(){ #Fix config files
+configFix(){ #Fix config files
 
 echo
 read -p "Replacing configuration files with secure equivalents (sysctl, pam.d, etc.)... [ENTER]"
@@ -120,7 +120,7 @@ cp login.defs /etc/login.defs
 /usr/lib/lightdm/lightdm-set-defaults -l false
 }
 
-extrafun(){ #Gathers potentially useful information
+extraFun(){ #Gathers potentially useful information
 
 echo
 read -p "Gathering information on potential security vulnerabilities... [ENTER]"
@@ -135,11 +135,11 @@ echo "You are not running harden.bash as root."
 echo "Run as 'sudo bash harden.bash'"
 exit
 else
-aptstuff
+aptStuff
 firewall
 ipt
-configfix
-extrafun
+configFix
+extraFun
 
 echo
 echo "A system restart may be required to finalize changes. In addition, some systems have experienced firewall issues after running this script without a reboot."
