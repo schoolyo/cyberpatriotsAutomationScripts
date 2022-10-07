@@ -5,7 +5,7 @@
 getInfo() {
 uid=`id $1`
 passwdStat=`grep "^${1}" /etc/shadow | cut -d: -f2`
-echo "The UID of $1 is $uid"
+echo "The ID's of $1 is $uid"
 echo "$1 has $passwdStat password status"
 }
 
