@@ -2,7 +2,7 @@
 # remember to call this script with the input file name as a parameter
 delete() {
 # delete the files
-while read -r i ; do rm $i ; done < $1
+while read -r i ; do rm $i ; done < $1 # read through input file one line at a time and use that line as paramater for rm command
 }
 # Make sure to run as root
 if [ "$(id -u)" != "0" ]; then
