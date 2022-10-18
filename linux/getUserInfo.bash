@@ -9,8 +9,11 @@ echo "The ID's of $1 is $uid"
 echo "$1 has $passwdStat password status"
 }
 
-if [ "$(id -u)" != ]; then
+if [ "$(id -u)" != "0" ]; then
 echo "You are not running getUserInfo.bash as root. Please do."
+exit
+elif [ $# -eq 0 ]; then
+echo "No argument provided. Please provide the username you want info about as a parameter when calling the script"
 exit
 else
 getInfo $1
