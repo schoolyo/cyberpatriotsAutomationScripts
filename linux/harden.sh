@@ -12,7 +12,7 @@ read -p "Running apt updates... [ENTER]"
 apt install -y firefox
 apt -V -y install hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-pwquality
 apt -V -y install --reinstall coreutils
-# Packages explained
+# PACKAGES EXPLAINED
 # chkrootkit is a shell script which checks system binaries for rootkit modification
 # iptables monitors traffic to and from your server using tables. Essentially a firewall program
 # portsentry is a program that tries to detect portscans on network interfaces with the ability to detect stealth scans
@@ -110,15 +110,39 @@ echo
 read -p "Replacing configuration files with secure equivalents (sysctl, pam.d, etc.)... [ENTER]"
 
 # Replace /etc/sysctl.conf with a more secure version (Reboots on OOM)
-cp sysctl.conf /etc/sysctl.conf
-sysctl -p
+#cp sysctl.conf /etc/sysctl.conf
+#sysctl -p
 
 # Update password rules (pam.d, login.defs)
-cp common-password /etc/pam.d/common-password
-cp login.defs /etc/login.defs
+cp commonPassword /etc/pam.d/common-password
+#cp login.defs /etc/login.defs
 
 # Disable guest user
-/usr/lib/lightdm/lightdm-set-defaults -l false
+#/usr/lib/lightdm/lightdm-set-defaults -l false
+}
+
+services(){ # lists active services and asks which ones to disable
+systemctl list-units --type=service --state=active | awk '{print $0}'
+echo
+echo "Enter the name of the services that you want to disable one at a time"
+
+while :
+do
+echo 
+echo "Enter the name of the service you want to disable. Ex: Enter cups for cups.service"
+read a
+# if 0 is entered, exit. Otherwise, take input for service name then stop and disable it
+if [ $a -eq 0 ]; then
+break
+else
+systemctl stop $a
+systemctl disable $a
+echo "$a service is stopped and disabled"
+read -p "[ENTER] to continue..."
+
+fi
+
+done
 }
 
 extraFun(){ #Gathers potentially useful information
