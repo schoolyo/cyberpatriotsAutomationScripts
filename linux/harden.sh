@@ -124,7 +124,6 @@ cp commonPassword /etc/pam.d/common-password
 services(){ # lists active services and asks which ones to disable
 systemctl list-units --type=service --state=active | awk '{print $0}'
 echo
-echo "Enter the name of the services that you want to disable one at a time"
 
 while :
 do
@@ -149,20 +148,20 @@ extraFun(){ #Gathers potentially useful information
 
 echo
 read -p "Gathering information on potential security vulnerabilities... [ENTER]"
-
-mkdir output
+user=`whoami`
+mkdir -p ./home/$user/out
 chkrootkit | tee ./output/chkrootkit.out
 lynis audit system | tee ./output/lynis.out
 }
 
 if [ "$(id -u)" != "0" ]; then
-echo "You are not running harden.bash as root."
-echo "Run as 'sudo bash harden.bash'"
+echo "You are not running harden.sh as root."
+echo "Run as 'sudo bash harden.sh'"
 exit
 else
 aptStuff
 firewall
-ipt
+#ipt
 configFix
 extraFun
 
