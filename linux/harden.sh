@@ -24,7 +24,7 @@ apt -V -y install --reinstall coreutils
 # libpam-pwquality provides common functions for password quality checking and also scoring them based on their apparent randomness
 
 apt update
-apt dist-upgrade
+apt full-upgrade
 apt install -f -y
 apt autoremove -y
 apt autoclean -y
