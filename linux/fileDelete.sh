@@ -11,5 +11,5 @@ echo "You are not running fileDelete.bash as root."
 echo "Run as 'sudo bash fileDelete.bash'"
 exit
 else
-delete
+delete $(readlink -f $1)
 fi
