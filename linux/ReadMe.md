@@ -1,4 +1,5 @@
 This folder contains the automation scripts for Linux
+
 **common-password** replaces common-password in pam.d. It is the config file for password policy
 **fileFinder.bash** finds media files on the system and writes their paths to output files in the out directory
 **fileDelete.bash** reads the paths inside the file given as a parameter and deletes them all
