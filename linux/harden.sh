@@ -10,7 +10,7 @@ aptStuff(){ # Some basic, but important apt commands
 read -p "Running apt updates... [ENTER]"
 
 apt install -y firefox
-apt -V -y install hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-pwquality
+apt -V -y install hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-cracklib
 apt -V -y install --reinstall coreutils
 # PACKAGES EXPLAINED
 # chkrootkit is a shell script which checks system binaries for rootkit modification
@@ -48,6 +48,17 @@ ufw deny 111 # used to easily access Remote Procedure Call (RPC) services
 ufw default deny
 
 ufw status verbose
+}
+
+sshSettings(){
+
+if grep -qF 'PermitRootLogin' /etc/ssh/sshd_config
+then 
+  sed -i 's/^.*PermitRootLogin.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+else 
+ echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
+fi
+# need to finish this function
 }
 
 ipt(){ # IPtables stuff (Block spammed SSH attempts, block IPs that portscan, etc.)
