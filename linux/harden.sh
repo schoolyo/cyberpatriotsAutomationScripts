@@ -116,7 +116,18 @@ read -p "Replacing configuration files with secure equivalents (sysctl, pam.d, e
 
 # Update password rules (pam.d, login.defs)
 cp commonPassword /etc/pam.d/common-password
-#cp login.defs /etc/login.defs
+
+# Update password age policy
+sed -i 's/^PASS_MAX_DAYS.*$/PASS_MAX_DAYS  90/'
+sed -i 's/^PASS_MIN_DAYS.*$/PASS_MIN_DAYS  5/'
+sed -i 's/^PASS_WARN_AGE.*$/PASS_WARN_AGE  7/'
+
+# Update system logging
+#sed -i 's/^.*$//' FAILLOG_ENAB YES
+#sed -i 's/^.*$//' LOG_UNKFAIL_ENAB YES
+#sed -i 's/^.*$//' SYSLOG_SU_ENAB YES
+#sed -i 's/^.*$//' SYSLOG_SG_ENAB YES
+
 
 # Disable guest user
 #/usr/lib/lightdm/lightdm-set-defaults -l false
