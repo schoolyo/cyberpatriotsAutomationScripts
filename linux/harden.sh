@@ -10,7 +10,7 @@ aptStuff(){ # Some basic, but important apt commands
 read -p "Running apt updates... [ENTER]"
 
 apt install -y firefox
-apt -V -y install hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-cracklib
+apt -V -y install hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-cracklib bum
 apt -V -y install --reinstall coreutils
 # PACKAGES EXPLAINED
 # chkrootkit is a shell script which checks system binaries for rootkit modification
@@ -21,7 +21,8 @@ apt -V -y install --reinstall coreutils
 # libpam-tmpdir sets $TMPDIR and $TMP for PAM sessions and sets the permissions quite tight
 # fail2ban is an intrusion prevention software framework
 # needrestart checks which daemons need to be restarted after library upgrades
-# libpam-pwquality provides common functions for password quality checking and also scoring them based on their apparent randomness
+# libpam-cracklib
+# bum displays a list of every service which could be started at boot. User can toggle individual services on and off.
 
 apt update
 apt full-upgrade
