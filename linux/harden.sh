@@ -50,17 +50,6 @@ ufw default deny
 ufw status verbose
 }
 
-sshSettings(){
-
-if grep -qF 'PermitRootLogin' /etc/ssh/sshd_config
-then 
-  sed -i 's/^.*PermitRootLogin.*$/PermitRootLogin no/' /etc/ssh/sshd_config
-else 
- echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
-fi
-# need to finish this function
-}
-
 ipt(){ # IPtables stuff (Block spammed SSH attempts, block IPs that portscan, etc.)
 
 echo
@@ -130,6 +119,14 @@ cp commonPassword /etc/pam.d/common-password
 
 # Disable guest user
 #/usr/lib/lightdm/lightdm-set-defaults -l false
+
+# Fix ssh_config settings
+if grep -qF 'PermitRootLogin' /etc/ssh/sshd_config
+then 
+  sed -i 's/^.*PermitRootLogin.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+else 
+ echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
+fi
 }
 
 services(){ # lists active services and asks which ones to disable
