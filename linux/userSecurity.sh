@@ -22,7 +22,8 @@ listSuperUsers() {
 clear
 read -p "Displaying all super users on this system... [ENTER]"
 echo
-grep '^sudo:.*$' /etc/group | cut -d: -f4
+#grep '^sudo:.*$' /etc/group | cut -d: -f4
+awk -F':' "{ if ( $1 == 'sudo' ) print $4 }" | tr "," "\n"
 echo
 }
 
@@ -50,7 +51,7 @@ fi
 done
 }
 
-removeSuperUsers() {
+cullSuperUsers() {
 # remove sudo priviledges from users that shouldn't have it
 echo "Enter the name of the user you want to remove sudo privileges from, one at a time. Type 0 to exit."
 echo "You will get an error message regarding an expected integer value; ignore it."
@@ -73,6 +74,12 @@ fi
 done
 }
 
+userCheck() {
+# check for any odd users or ones that shouldn't be allowed
+passwd -l root
+
+}
+
 if [ "$(id -u)" != "0" ]; then
 
 echo "You are not running usercheck.bash as root."
@@ -82,5 +89,5 @@ else
 listUsers
 cullUsers
 listSuperUsers
-removeSuperUsers
+cullSuperUsers
 fi
