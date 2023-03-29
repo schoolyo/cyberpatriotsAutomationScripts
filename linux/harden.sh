@@ -103,6 +103,8 @@ iptables -A INPUT -p all -s localhost -i eth0 -j DROP #Deny outside packets from
 # Save IPtables rules
 iptables-save
 /sbin/iptables-save
+
+iptables -L -v
 }
 
 configFix(){ #Fix config files
@@ -123,13 +125,12 @@ sed -i 's/^PASS_MIN_DAYS.*$/PASS_MIN_DAYS  5/'
 sed -i 's/^PASS_WARN_AGE.*$/PASS_WARN_AGE  7/'
 
 # Update system logging
-#sed -i 's/^.*$//' FAILLOG_ENAB YES
-#sed -i 's/^.*$//' LOG_UNKFAIL_ENAB YES
-#sed -i 's/^.*$//' SYSLOG_SU_ENAB YES
-#sed -i 's/^.*$//' SYSLOG_SG_ENAB YES
+sed -i 's/^FAILLOG_ENAB.*$/FAILLOG_ENAB  YES/'
+sed -i 's/^LOG_UNKFAIL_ENAB.*$/LOG_UNKFAIL_ENAB YES/' 
+sed -i 's/^SYSLOG_SU_ENAB.*$/SYSLOG_SU_ENAB  YES/'
+sed -i 's/^SYSLOG_SH_ENAB.*$/SYSLOG_SG_ENAB  YES/'
 
-
-# Disable guest user
+# Fix lightdm settings
 #/usr/lib/lightdm/lightdm-set-defaults -l false
 
 # Fix ssh_config settings
@@ -139,6 +140,9 @@ then
 else 
  echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
 fi
+#sed -i 's/^LoginGraceTime.*$/LoginGraceTime 60/'
+#sed -i 's/^PermitEmptyPasswords.*$/PermitEmptyPasswords no/'
+#sed -i 's/^.PasswordAuthenication*$/PasswordAuthentication yes/'
 }
 
 services(){ # lists active services and asks which ones to disable
