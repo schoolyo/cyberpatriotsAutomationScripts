@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# This script will list users, and allow the administrator to cull unnecessary users as desired
-
-# ADD GROUP / PASSCHANGE FUNCTIONALITY
+# This script will list users, allow the administrator to cull unnecessary users, change user passwords, and check for suspicious users
 
 listUsers() {
 # List general users
@@ -53,21 +51,21 @@ done
 }
 
 cullSuperUsers() {
-# remove sudo priviledges from users that shouldn't have it
-echo "Enter the name of the user you want to remove sudo privileges from, one at a time. Type 0 to exit."
+# Remove sudo priviledges from unauthorized users
+echo "Enter the username you want to remove sudo privileges from, one at a time. Type 0 to exit."
 echo "You will get an error message regarding an expected integer value; ignore it."
-# begin loop
+# Begin loop
 while :
 do
 echo
-echo "Enter the username of the user you want to remove sudo privileges from: "
-read a
+echo "Enter the username you want to remove sudo privileges from: "
+read name
 
-if [ $a -eq 0 ]; then
+if [ $name -eq 0 ]; then
 break
 else
-sudo deluser $a sudo &>/dev/null
-echo "User $a removed from sudo group"
+sudo deluser $name sudo &>/dev/null
+echo "User $name removed from sudo group"
 read -p "[ENTER] to continue..."
 
 fi 
@@ -75,35 +73,62 @@ fi
 done
 }
 
+changePassword() {
+# Change the password of any users inputted
+echo "Enter the username you want to change the password of, one at a time. Type 0 to exit."
+echo "You will get an error message regarding an expected integer value; ignore it."
+while :
+do
+echo
+echo "Enter the username you want to change the password of: "
+read name
+echo "Enter the password you want to replace theirs with: "
+read password
+
+if [ $name -eq 0 || $password -eq 0 ]; then
+break
+else
+sudo echo "$name:$password" | chpasswd
+echo "Password of $name has been updated"
+read -p "[ENTER] to continue..."
+
+fi
+
+done
+}
+
+
 userCheck() {
-# check for empty passwords
+
+# Check for empty passwords
 echo "Passwordless users:"
-awk -F':' "$2 == '*' || $2 == '' { print $1 }" /etc/passwd
-echo
+noPassword=$(awk -F':' "$2 == '*' || $2 == '' { print $1 }" /etc/passwd)
 
-# check for non-root UID 0
+# Check for non-root UID 0
 echo "Non-root UID 0 users:"
-awk -F':' "$3 == 0 && $1 != 'root' { print $1 }" /etc/passwd
-echo
+noRoot=$(awk -F':' "$3 == 0 && $1 != 'root' { print $1 }" /etc/passwd)
 
-# check for any odd users or ones that shouldn't be allowed
+# Check for any odd users
 echo "Check for odd users:"
-awk -F':' "$3 > 999 && $3 < 65534 { print $1 }" /etc/passwd
-echo
+oddUsers=$(awk -F':' "$3 > 999 && $3 < 65534 { print $1 }" /etc/passwd)
 
-# lock root account
+# Lock root account
 passwd -l root 
 
+# Display as columns
+#need to figure out how to use column command to do this
 }
 
 if [ "$(id -u)" != "0" ]; then
 
-echo "You are not running usercheck.bash as root."
-echo "Run as 'sudo bash usercheck.bash'"
+echo "You are not running usercheck.sh as root."
+echo "Run as 'sudo bash usercheck.sh'"
 exit
 else
 listUsers
 cullUsers
 listSuperUsers
 cullSuperUsers
+changePassword
+userCheck
 fi
