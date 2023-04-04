@@ -22,7 +22,7 @@ clear
 read -p "Displaying all super users on this system... [ENTER]"
 echo
 #grep '^sudo:.*$' /etc/group | cut -d: -f4
-awk -F':' "{ if ( $1 == 'sudo' ) print $4 }" | tr "," "\n"
+awk -F':' '{ if ( $1 == "sudo" ) print $4 }' | tr "," "\n"
 echo
 }
 
@@ -102,15 +102,15 @@ userCheck() {
 
 # Check for empty passwords
 echo "Passwordless users:"
-noPassword=$(awk -F':' "$2 == '*' || $2 == '' { print $1 }" /etc/passwd)
+noPassword=$(awk -F':' '$2 == "*" || $2 == "" { print $1 }' /etc/passwd)
 
 # Check for non-root UID 0
 echo "Non-root UID 0 users:"
-noRoot=$(awk -F':' "$3 == 0 && $1 != 'root' { print $1 }" /etc/passwd)
+noRoot=$(awk -F':' '$3 == 0 && $1 != "root" { print $1 }' /etc/passwd)
 
 # Check for any odd users
 echo "Check for odd users:"
-oddUsers=$(awk -F':' "$3 > 999 && $3 < 65534 { print $1 }" /etc/passwd)
+oddUsers=$(awk -F':' '$3 > 999 && $3 < 65534 { print $1 }' /etc/passwd)
 
 # Lock root account
 passwd -l root 
