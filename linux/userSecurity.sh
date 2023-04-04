@@ -102,7 +102,7 @@ userCheck() {
 
 # Check for empty passwords
 echo "Passwordless users:"
-noPassword=$(awk -F':' '$2 == "*" || $2 == "" { print $1 }' /etc/passwd)
+noPassword=$(awk -F':' '$2 == "" { print $1 }' /etc/shadow)
 
 # Check for non-root UID 0
 echo "Non-root UID 0 users:"
