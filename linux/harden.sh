@@ -151,17 +151,17 @@ services(){ # lists active services and asks which ones to disable
   
   while :
   do
-  echo 
-  echo "Enter the name of the service you want to disable. Ex: Enter cups for cups.service"
-  read a
+    echo 
+    echo "Enter the name of the service you want to disable. Ex: Enter cups for cups.service"
+    read a
   # if 0 is entered, exit. Otherwise, take input for service name then stop and disable it
   if [ $a -eq 0 ]; then
-  break
+    break
   else
-  systemctl stop $a
-  systemctl disable $a
-  echo "$a service is stopped and disabled"
-  read -p "[ENTER] to continue..."
+    systemctl stop $a
+    systemctl disable $a
+    echo "$a service is stopped and disabled"
+    read -p "[ENTER] to continue..."
   
   fi
   
