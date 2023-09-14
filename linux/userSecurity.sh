@@ -8,10 +8,7 @@ listUsers() {
   clear
   read -p "Displaying all general users on this system... [ENTER]"
   echo
-  l=$(grep "^UID_MIN" /etc/login.defs)
-  l1=$(grep "^UID_MAX" /etc/login.defs)
-  awk -F':' -v "min=${l##UID_MIN}" -v "max=${l1##UID_MAX}" "$3 >= min && $3 <= max { print $1 }"
-  # '{ if ( $3 >= min && $3 <= max ) print $0}' /etc/passwd | cut -d: -f1
+  awk -F':' '$3 > 999 {print $1}' /etc/passwd
   echo
 }
 
