@@ -174,8 +174,8 @@ extraFun(){ #Gathers potentially useful information
   read -p "Gathering information on potential security vulnerabilities... [ENTER]"
   user=`whoami`
   mkdir -p ./home/$user/out
-  chkrootkit | tee ./output/chkrootkit.out
-  lynis audit system | tee ./output/lynis.out
+  chkrootkit | tee ./out/chkrootkit.out
+  lynis audit system | tee ./out/lynis.out
 }
 
 if [ "$(id -u)" != "0" ]; then
