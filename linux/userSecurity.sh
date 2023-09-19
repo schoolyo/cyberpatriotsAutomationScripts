@@ -8,7 +8,7 @@ listUsers() {
   clear
   read -p "Displaying all general users on this system... [ENTER]"
   echo
-  awk -F':' '$3 > 999 {print $1}' /etc/passwd
+  awk -F':' '$3 > 999 { print $1 }' /etc/passwd
   echo
 }
 
@@ -18,8 +18,7 @@ listSuperUsers() {
   clear
   read -p "Displaying all super users on this system... [ENTER]"
   echo
-  #grep '^sudo:.*$' /etc/group | cut -d: -f4
-  awk -F':' '{ if ( $1 == "sudo" ) print $4 }' | tr "," "\n"
+  awk -F':' '$1 == "sudo" { print $4 }' | tr "," "\n" | sort
   echo
 }
 
@@ -71,6 +70,10 @@ cullSuperUsers() {
 }
 
 changePassword() {
+  # Check for empty passwords
+  echo "Passwordless users:"
+  awk -F':' '$2 == "" { print $1 }' /etc/shadow
+  
   # Change the password of any users inputted
   echo "Enter the username you want to change the password of, one at a time. Type 0 to exit."
   echo "You will get an error message regarding an expected integer value; ignore it."
@@ -83,11 +86,11 @@ changePassword() {
   read password
   
   if [ $name -eq 0 || $password -eq 0 ]; then
-  break
+    break
   else
-  sudo echo "$name:$password" | chpasswd
-  echo "Password of $name has been updated"
-  read -p "[ENTER] to continue..."
+    sudo echo "$name:$password" | chpasswd
+    echo "Password of $name has been updated"
+    read -p "[ENTER] to continue..."
   
   fi
   
@@ -96,10 +99,6 @@ changePassword() {
 
 
 userCheck() {
-  
-  # Check for empty passwords
-  echo "Passwordless users:"
-  noPassword=$(awk -F':' '$2 == "" { print $1 }' /etc/shadow)
   
   # Check for non-root UID 0
   echo "Non-root UID 0 users:"
