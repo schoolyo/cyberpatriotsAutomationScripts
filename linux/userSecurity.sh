@@ -18,7 +18,7 @@ listSuperUsers() {
   clear
   read -p "Displaying all super users on this system... [ENTER]"
   echo
-  awk -F':' '$1 == "sudo" { print $4 }' | tr "," "\n" | sort
+  awk -F':' '$1 == "sudo" { print $4 }' /etc/group | tr "," "\n" | sort
   echo
 }
 
