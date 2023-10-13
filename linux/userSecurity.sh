@@ -30,18 +30,18 @@ cullUsers() {
   # Begin loop
   while :
   do
-  echo
-  echo "Enter the username of the user you wish to delete: "
-  read a
-  
-  if [ $a -eq 0 ]; then
-  break
-  else
-  sudo userdel -r $a &>/dev/null
-  echo "User $a deleted"
-  read -p "[ENTER] to continue..."
-  
-  fi
+    echo
+    echo "Enter the username of the user you wish to delete: "
+    read username
+    
+    if [ $username -eq 0 ]; then
+      break
+    else
+      sudo userdel -r $username &>/dev/null
+      echo "User $username deleted"
+      read -p "[ENTER] to continue..."
+    
+    fi
   
   done
 }
@@ -53,18 +53,19 @@ cullSuperUsers() {
   # Begin loop
   while :
   do
-  echo
-  echo "Enter the username you want to remove sudo privileges from: "
-  read name
-  
-  if [ $name -eq 0 ]; then
-  break
-  else
-  sudo deluser $name sudo &>/dev/null
-  echo "User $name removed from sudo group"
-  read -p "[ENTER] to continue..."
-  
-  fi 
+    echo
+    echo "Enter the username you want to remove sudo privileges from: "
+    read username
+    
+    if [ $username -eq 0 ]; then
+      break
+    else
+      #sudo deluser $username sudo &>/dev/null
+      sudo gpasswd -d $username sudo &>/dev/null
+      echo "User $username removed from sudo group"
+      read -p "[ENTER] to continue..."
+    
+    fi 
   
   done
 }
@@ -72,27 +73,27 @@ cullSuperUsers() {
 changePassword() {
   # Check for empty passwords
   echo "Passwordless users:"
-  awk -F':' '$2 == "" { print $1 }' /etc/shadow
+  awk -F':' '$2 == "" { print $1 }' /etc/shadow | sort
   
   # Change the password of any users inputted
   echo "Enter the username you want to change the password of, one at a time. Type 0 to exit."
   echo "You will get an error message regarding an expected integer value; ignore it."
   while :
   do
-  echo
-  echo "Enter the username you want to change the password of: "
-  read name
-  echo "Enter the password you want to replace theirs with: "
-  read password
-  
-  if [ $name -eq 0 || $password -eq 0 ]; then
-    break
-  else
-    sudo echo "$name:$password" | chpasswd
-    echo "Password of $name has been updated"
-    read -p "[ENTER] to continue..."
-  
-  fi
+    echo
+    echo "Enter the username you want to change the password of: "
+    read name
+    echo "Enter the password you want to replace theirs with: "
+    read password
+    
+    if [ $name -eq 0 || $password -eq 0 ]; then
+      break
+    else
+      sudo echo "$name:$password" | chpasswd
+      echo "Password of $name has been updated"
+      read -p "[ENTER] to continue..."
+    
+    fi
   
   done
 }
