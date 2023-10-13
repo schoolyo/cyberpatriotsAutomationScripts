@@ -126,6 +126,6 @@ else
   cullUsers
   listSuperUsers
   cullSuperUsers
-  changePassword
+  #changePassword
   userCheck
 fi
