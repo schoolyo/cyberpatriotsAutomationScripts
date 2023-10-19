@@ -78,26 +78,26 @@ changePassword() {
   # Change the password of any users inputted
   echo "Enter the username you want to change the password of, one at a time. Type 0 to exit."
   echo "You will get an error message regarding an expected integer value; ignore it."
-  while :
-  do
+  
+  while true; do
     echo
     echo "Enter the username you want to change the password of: "
     read name
-    echo "Enter the password you want to replace theirs with: "
-    read password
-    
-    if [ $name -eq 0 || $password -eq 0 ]; then
+    if [ "$name" = "0" ]; then
       break
-    else
-      sudo echo "$name:$password" | chpasswd
-      echo "Password of $name has been updated"
-      read -p "[ENTER] to continue..."
-    
     fi
   
+    echo "Enter the password you want to replace theirs with: "
+    read password
+    if [ "$password" = "0" ]; then
+      break
+    fi
+  
+    sudo echo "$name:$password" | chpasswd
+    echo "Password of $name has been updated"
+    read -p "[ENTER] to continue..."
   done
 }
-
 
 userCheck() {
   
@@ -126,6 +126,6 @@ else
   cullUsers
   listSuperUsers
   cullSuperUsers
-  #changePassword
+  changePassword
   userCheck
 fi
