@@ -145,26 +145,27 @@ configFix(){ #Fix config files
   #sed -i 's/^.PasswordAuthenication*$/PasswordAuthentication yes/'
 }
 
-services(){ # lists active services and asks which ones to disable
+services() { #Lists active services and asks which ones to disable
   systemctl list-units --type=service --state=active | awk '{print $0}'
   echo
-  
-  while :
-  do
-    echo 
-    echo "Enter the name of the service you want to disable. Ex: Enter cups for cups.service"
+
+  while true; do
+    echo
+    echo "Enter the name of the service you want to disable. Example: Enter 'cups' for 'cups.service'"
+    echo "Enter '0' to exit."
+
     read a
-  # if 0 is entered, exit. Otherwise, take input for service name then stop and disable it
-  if [ $a -eq 0 ]; then
-    break
-  else
-    systemctl stop $a
-    systemctl disable $a
-    echo "$a service is stopped and disabled"
-    read -p "[ENTER] to continue..."
-  
-  fi
-  
+
+    if [ "$a" = "0" ]; then
+      break
+    elif systemctl is-active --quiet "$a"; then
+      systemctl stop "$a"
+      systemctl disable "$a"
+      echo "$a service is stopped and disabled"
+      read -p "[ENTER] to continue..."
+    else
+      echo "Invalid service name or service is not active."
+    fi
   done
 }
 
