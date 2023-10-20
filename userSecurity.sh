@@ -2,9 +2,7 @@
 
 # This script will list users, allow the administrator to cull unnecessary users, change user passwords, and check for suspicious users
 
-listUsers() {
-  # List general users
-  
+listUsers() { #List general users
   clear
   read -p "Displaying all general users on this system... [ENTER]"
   echo
@@ -12,9 +10,7 @@ listUsers() {
   echo
 }
 
-listSuperUsers() {
-  # List users with sudo priviledges
-  
+listSuperUsers() { #List users with sudo privileges
   clear
   read -p "Displaying all super users on this system... [ENTER]"
   echo
@@ -22,14 +18,12 @@ listSuperUsers() {
   echo
 }
 
-cullUsers() {
-  # Cull the unauthorized users
-  
-  echo "Enter the names of the users which you desire to delete, one at a time. Type 0 to exit."
-  echo "You will get an error message regarding an expected integer value; ignore it."
-  # Begin loop
+cullUsers() { #Cull the unauthorized users
   while :
   do
+    listUsers()
+    echo "Enter the names of the users which you desire to delete, one at a time. Type 0 to exit."
+    echo "You will get an error message regarding an expected integer value; ignore it."
     echo
     echo "Enter the username of the user you wish to delete: "
     read username
@@ -46,13 +40,12 @@ cullUsers() {
   done
 }
 
-cullSuperUsers() {
-  # Remove sudo priviledges from unauthorized users
-  echo "Enter the username you want to remove sudo privileges from, one at a time. Type 0 to exit."
-  echo "You will get an error message regarding an expected integer value; ignore it."
-  # Begin loop
+cullSuperUsers() { #Remove sudo priviledges from unauthorized users
   while :
   do
+    listSuperUsers()
+    echo "Enter the username you want to remove sudo privileges from, one at a time. Type 0 to exit."
+    echo "You will get an error message regarding an expected integer value; ignore it."
     echo
     echo "Enter the username you want to remove sudo privileges from: "
     read username
@@ -70,8 +63,7 @@ cullSuperUsers() {
   done
 }
 
-changePassword() {
-  # Check for empty passwords
+changePassword() { #Check for empty passwords
   echo "Passwordless users:"
   awk -F':' '$2 == "" { print $1 }' /etc/shadow | sort
   
@@ -122,9 +114,9 @@ if [ "$(id -u)" != "0" ]; then
   echo "Run as 'sudo bash usercheck.sh'"
   exit
 else
-  listUsers
+  #listUsers
   cullUsers
-  listSuperUsers
+  #listSuperUsers
   cullSuperUsers
   changePassword
   userCheck
