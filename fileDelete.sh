@@ -27,6 +27,6 @@ fi
 if [ $# -eq 1 ]; then
   delete "$(readlink -f "$1")"
 else
-  echo "Usage: sudo bash fileDelete.sh <input_file>"
+  echo "Usage: sudo bash fileDelete.sh [input_file]"
   exit 1
 fi
