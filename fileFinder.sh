@@ -1,27 +1,26 @@
 #!/bin/bash
 
-# This program finds bad files, and lists them in an output file.
-# The user can then choose which to delete at their discretion.
+# Define file extensions and corresponding output files
+declare -A file_extensions=(
+  ["Audio"]="midi mid mp3 flac"
+  ["Images"]="jpg png jpeg gif"
+  ["Video"]="avi mp4 wmv mpg mpeg mov"
+)
 
-# Audio
+# Function to find and list files of specified extensions
+find_and_list_files() {
+  local directory="$1"
+  local extensions="$2"
+  local output_file="$3"
 
-find /home -iname "*.midi" -type f | tee -a ./audio.out
-find /home -iname "*.mid" -type f | tee -a ./audio.out
-find /home -iname "*.mp3" -type f | tee -a ./audio.out
-find /home -iname "*.flac" -type f | tee -a ./audio.out
+  for ext in $extensions; do
+    find "$directory" -iname "*.$ext" -type f | tee -a "$output_file"
+  done
+}
 
-# Images
-
-find /home -iname "*.jpg" -type f | tee -a ./image.out
-find /home -iname "*.png" -type f | tee -a ./image.out
-find /home -iname "*.jpeg" -type f | tee -a ./image.out
-find /home -iname "*.gif" -type f | tee -a ./image.out
-
-# Video
-
-find /home -iname "*.avi" -type f | tee -a ./video.out
-find /home -iname "*.mp4" -type f | tee -a ./video.out
-find /home -iname "*.wmv" -type f | tee -a ./video.out
-find /home -iname "*.mpg" -type f | tee -a ./video.out
-find /home -iname "*.mpeg" -type f | tee -a ./video.out
-find /home -iname "*.mov" -type f | tee -a ./video.out
+# Find and list files by category
+for category in "${!file_extensions[@]}"; do
+  extensions="${file_extensions[$category]}"
+  output_file="${category,,}.out"
+  find_and_list_files /home "$extensions" "./$output_file"
+done
