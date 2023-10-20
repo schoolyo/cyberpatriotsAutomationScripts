@@ -9,11 +9,12 @@ aptStuff(){ # Some basic, but important apt commands
 
   read -p "Running apt updates... [ENTER]"
   
-  apt install -y firefox
-  apt -V -y install hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-cracklib bum
-  apt -V -y install --reinstall coreutils
+  apt install -y firefox ufw vim
+  apt install -V -y hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-cracklib bum
+  #apt -V -y install --reinstall coreutils
   # PACKAGES EXPLAINED
-  # chkrootkit is a shell script which checks system binaries for rootkit modification
+  # hardinfo is a system profiler and benchmark graphical tool
+  # chkrootkit checks system binaries for rootkit modification
   # iptables monitors traffic to and from your server using tables. Essentially a firewall program
   # portsentry is a program that tries to detect portscans on network interfaces with the ability to detect stealth scans
   # lynis performs an extensive health scan of your systems to support system hardening and compliance testing.
@@ -24,11 +25,9 @@ aptStuff(){ # Some basic, but important apt commands
   # libpam-cracklib
   # bum displays a list of every service which could be started at boot. User can toggle individual services on and off.
   
-  apt update
-  apt full-upgrade
-  apt install -f -y
-  apt autoremove -y
-  apt autoclean -y
+  apt update -y -V
+  apt full-upgrade -y -V
+  apt autoremove -y -V
   apt check
 }
 
@@ -37,7 +36,6 @@ firewall(){ # Firewall stuff (UFW config)
   echo
   read -p "Configuring firewall (ufw)... [ENTER]"
   
-  apt install ufw
   ufw enable
   
   ufw allow ssh
@@ -187,9 +185,9 @@ else
   aptStuff
   firewall
   #ipt
-  configFix
+  #configFix
   services
-  extraFun
+  #extraFun
 
   echo
   echo "A system restart may be required to finalize changes. In addition, some systems have experienced firewall issues after running this script without a reboot."
