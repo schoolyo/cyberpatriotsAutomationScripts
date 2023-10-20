@@ -21,7 +21,7 @@ listSuperUsers() { #List users with sudo privileges
 cullUsers() { #Cull the unauthorized users
   while :
   do
-    listUsers()
+    listUsers
     echo "Enter the names of the users which you desire to delete, one at a time. Type 0 to exit."
     echo "You will get an error message regarding an expected integer value; ignore it."
     echo
@@ -43,7 +43,7 @@ cullUsers() { #Cull the unauthorized users
 cullSuperUsers() { #Remove sudo priviledges from unauthorized users
   while :
   do
-    listSuperUsers()
+    listSuperUsers
     echo "Enter the username you want to remove sudo privileges from, one at a time. Type 0 to exit."
     echo "You will get an error message regarding an expected integer value; ignore it."
     echo
@@ -64,6 +64,7 @@ cullSuperUsers() { #Remove sudo priviledges from unauthorized users
 }
 
 changePassword() { #Check for empty passwords
+  clear
   echo "Passwordless users:"
   awk -F':' '$2 == "" { print $1 }' /etc/shadow | sort
   
@@ -94,12 +95,12 @@ changePassword() { #Check for empty passwords
 userCheck() {
   
   # Check for non-root UID 0
-  echo "Non-root UID 0 users:"
-  awk -F':' '$3 == 0 && $1 != "root" { print $1 }' /etc/passwd
+  #echo "Non-root UID 0 users:"
+  #awk -F':' '$3 == 0 && $1 != "root" { print $1 }' /etc/passwd
   
   # Check for any odd users
-  echo "Check for odd users:"
-  awk -F':' '$3 > 999 && $3 < 65534 { print $1 }' /etc/passwd
+  #echo "Check for odd users:"
+  #awk -F':' '$3 > 999 && $3 < 65534 { print $1 }' /etc/passwd
   
   # Lock root account
   passwd -l root 
