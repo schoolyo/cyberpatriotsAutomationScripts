@@ -103,17 +103,17 @@ userCheck() {
   
   # Check for non-root UID 0
   echo "Non-root UID 0 users:"
-  noRoot=$(awk -F':' '$3 == 0 && $1 != "root" { print $1 }' /etc/passwd)
+  awk -F':' '$3 == 0 && $1 != "root" { print $1 }' /etc/passwd
   
   # Check for any odd users
   echo "Check for odd users:"
-  oddUsers=$(awk -F':' '$3 > 999 && $3 < 65534 { print $1 }' /etc/passwd)
+  awk -F':' '$3 > 999 && $3 < 65534 { print $1 }' /etc/passwd
   
   # Lock root account
   passwd -l root 
   
   # Display as columns
-  paste <(awk -F':' '{OFS=":"} $2 == "" {print $1}' /etc/shadow) <(awk -F':' '$3 == 0 && $1 != "root" {print $1}' etc/passwd)
+  #paste <(awk -F':' '{OFS=":"} $2 == "" {print $1}' /etc/shadow) <(awk -F':' '$3 == 0 && $1 != "root" {print $1}' etc/passwd)
 }
 
 if [ "$(id -u)" != "0" ]; then
