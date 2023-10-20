@@ -10,7 +10,7 @@ aptStuff(){ # Some basic, but important apt commands
   read -p "Running apt updates... [ENTER]"
   
   apt install -y firefox ufw vim
-  apt install -V -y hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-cracklib bum
+  apt install -V -y hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-pwquality bum
   #apt -V -y install --reinstall coreutils
   # PACKAGES EXPLAINED
   # hardinfo is a system profiler and benchmark graphical tool
