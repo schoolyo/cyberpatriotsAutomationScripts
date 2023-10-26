@@ -5,6 +5,7 @@ declare -A file_extensions=(
   ["Audio"]="midi mid mp3 flac"
   ["Images"]="jpg png jpeg gif"
   ["Video"]="avi mp4 wmv mpg mpeg mov"
+  ["Text"]="txt pdf"
 )
 
 # Function to find and list files of specified extensions
