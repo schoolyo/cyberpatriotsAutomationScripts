@@ -10,7 +10,7 @@ aptStuff(){ # Some basic, but important apt commands
   read -p "Running apt updates... [ENTER]"
   
   apt install -y firefox ufw vim
-  apt install -V -y hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-pwquality bum
+  apt install -V -y hardinfo chkrootkit iptables portsentry lynis clamav libpam-tmpdir fail2ban needrestart libpam-pwquality
   #apt -V -y install --reinstall coreutils
   # PACKAGES EXPLAINED
   # hardinfo is a system profiler and benchmark graphical tool
@@ -25,10 +25,10 @@ aptStuff(){ # Some basic, but important apt commands
   # libpam-cracklib
   # bum displays a list of every service which could be started at boot. User can toggle individual services on and off.
   
-  apt update -y -V
-  apt full-upgrade -y -V
-  apt autoremove -y -V
-  apt check
+  apt-get update -yV
+  apt-get dist-upgrade -yV
+  apt-get autoremove -yV 
+  apt-get check
 }
 
 firewall(){ # Firewall stuff (UFW config)
