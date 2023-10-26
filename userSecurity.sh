@@ -115,9 +115,7 @@ if [ "$(id -u)" != "0" ]; then
   echo "Run as 'sudo bash usercheck.sh'"
   exit
 else
-  #listUsers
   cullUsers
-  #listSuperUsers
   cullSuperUsers
   changePassword
   userCheck
