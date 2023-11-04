@@ -144,7 +144,7 @@ configFix(){ #Fix config files
 }
 
 services() { #Lists active services and asks which ones to disable
-  systemctl list-units --type=service --state=active | awk '{print $0}'
+  systemctl list-units --type=service --state=active #| awk '{print $0}'
   echo
 
   while true; do
