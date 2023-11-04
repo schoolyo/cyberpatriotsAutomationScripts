@@ -96,7 +96,7 @@ userCheck() {
   
   # Check for non-root UID 0
   #echo "Non-root UID 0 users:"
-  #awk -F':' '$3 == 0 && $1 != "root" { print $1 }' /etc/passwd
+  awk -F':' '$3 == 0 && $1 != "root" { print $1 }' /etc/passwd
   
   # Check for any odd users
   #echo "Check for odd users:"
